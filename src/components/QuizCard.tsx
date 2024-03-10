@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Quiz } from "../types";
+import { getRandomNum } from "../utils";
 import QuizCardItem from "./QuizCardItem";
 
 type Props = {
@@ -8,13 +9,18 @@ type Props = {
 
 const badgeStyle = "rounded-md mr-2 p-1 text-white";
 
+let correct_answer: number | null = null;
 export default function QuizCard(props: Props) {
   const { quiz } = props;
   const [answerList, setAnswerList] = useState<string[] | null>(null);
+  const [answer, setAnswer] = useState<number | null>(null);
 
   useEffect(() => {
-    // TODO: 정답 랜덤 섞기
-    setAnswerList(quiz.incorrect_answers.concat(quiz.correct_answer));
+    // 랜덤한 위치에 정답 넣기
+    correct_answer = getRandomNum(0, 4, true);
+    const arr = quiz.incorrect_answers.concat([]);
+    arr.splice(correct_answer, 0, quiz.correct_answer);
+    setAnswerList(arr);
   }, [quiz]);
 
   return (
@@ -27,7 +33,17 @@ export default function QuizCard(props: Props) {
       <div>
         <p className="my-3 text-center">{quiz.question}</p>
         <div className="flex flex-col">
-          {answerList && answerList.map((v, idx) => <QuizCardItem key={idx} answer={v} />)}
+          {answerList &&
+            answerList.map((v, idx) => (
+              <QuizCardItem
+                key={idx}
+                text={v}
+                checked={answer === idx}
+                clickEvnet={() => {
+                  setAnswer(idx);
+                }}
+              />
+            ))}
         </div>
       </div>
     </div>
