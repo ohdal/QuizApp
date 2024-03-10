@@ -27,10 +27,19 @@ export default function QuizPage() {
   }, []);
 
   return (
-    <div>
-      {quizList ? <QuizCard quiz={quizList[quizIdx]} /> : <div>...Loading</div>}
-      <div>
-        <button onClick={() => setQuizIdx((v) => v + 1)}>다음문항</button>
+    <div className="w-full h-full grid place-content-center">
+      <div className="flex flex-col">
+        {quizList ? (
+          <>
+            <p>Quiz {quizIdx + 1}.</p>
+            <QuizCard quiz={quizList[quizIdx]} />
+            <div className="flex justify-center">
+              <button onClick={() => setQuizIdx((v) => v + 1)}>다음문항</button>
+            </div>
+          </>
+        ) : (
+          <div>...Loading</div>
+        )}
       </div>
     </div>
   );
