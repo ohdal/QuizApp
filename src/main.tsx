@@ -5,10 +5,12 @@ import "./index.css";
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import NotePage from "./pages/NotePage";
+import ResultPage from "./pages/ResultPage";
 
 const routes = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "/quiz", element: <QuizPage /> },
+  { path: "/result", element: <ResultPage /> },
   { path: "/note", element: <NotePage /> },
 ]);
 

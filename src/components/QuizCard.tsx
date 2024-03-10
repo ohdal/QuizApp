@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Quiz } from "../types";
 import { getRandomNum } from "../utils";
 import QuizCardItem from "./QuizCardItem";
