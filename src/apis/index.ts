@@ -1,4 +1,4 @@
-import { QuizList } from "./type";
+import { QuizList } from "../types";
 
 const RES_CODE = [
   "Success",
@@ -12,9 +12,11 @@ const RES_CODE = [
 export const getQuizList = async (): Promise<QuizList | Error> => {
   const res = await fetch("https://opentdb.com/api.php?amount=10&type=multiple");
   const data = await res.json();
+
   if (res.status === 200) {
-    return data.response_code === 0 ? data.results : new Error(RES_CODE[data.response_code]);
+    if (data.response_code === 0) return data.results;
+    else throw new Error(RES_CODE[data.response_code]);
   } else {
-    return new Error("Error");
+    throw new Error("Error");
   }
 };
