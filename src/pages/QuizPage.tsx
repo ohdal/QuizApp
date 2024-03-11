@@ -1,16 +1,32 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getQuizList } from "../apis";
-import { QuizList } from "../types";
+import { QuizList, Result, Note } from "../types";
+import { NOTE_STORAGE_KEY } from "../constants";
 import QuizCard from "../components/QuizCard";
-import { Link } from "react-router-dom";
 
 const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 
 let isPending = false;
+let timerId: number | null = null;
+let result: Result = { time: 0, correct: 0, noteList: [] };
 export default function QuizPage() {
+  const navigate = useNavigate();
   const [quizList, setQuizList] = useState<QuizList | null>(null);
   const [quizIdx, setQuizIdx] = useState<number>(0);
   const [btnVisible, setBtnVisible] = useState<boolean>(false);
+
+  const saveResult = () => {
+    const data = localStorage.getItem(NOTE_STORAGE_KEY);
+    console.log("data", data);
+    const arr = data ? JSON.parse(data as string) : [];
+
+    // 이전 데이터와 합치기
+    arr.push(...result.noteList);
+
+    localStorage.setItem(NOTE_STORAGE_KEY, JSON.stringify(arr));
+    navigate("/result");
+  };
 
   const getQuizListFunc = async () => {
     try {
@@ -29,6 +45,21 @@ export default function QuizPage() {
       isPending = true;
       getQuizListFunc();
     }
+
+    if (!timerId) {
+      timerId = setInterval(() => {
+        result.time++;
+      }, 1000);
+    }
+
+    return () => {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+
+      result = { time: 0, correct: 0, noteList: [] };
+    };
   }, []);
 
   return (
@@ -39,8 +70,14 @@ export default function QuizPage() {
             <p>Quiz {quizIdx + 1}.</p>
             <QuizCard
               quiz={quizList[quizIdx]}
-              activeNextQuiz={() => {
+              nextQuizFunc={() => {
                 setBtnVisible(true);
+              }}
+              answerCountFunc={() => {
+                result.correct++;
+              }}
+              setNoteList={(note: Note) => {
+                result.noteList.push(note);
               }}
             />
             <div className="absolute bottom-0 right-0">
@@ -56,8 +93,8 @@ export default function QuizPage() {
                     다음문항 ➡
                   </button>
                 ) : (
-                  <button className={buttonStyle}>
-                    <Link to="/result">결과보기</Link>
+                  <button className={buttonStyle} onClick={saveResult}>
+                    결과보기 ➡
                   </button>
                 ))}
             </div>

@@ -1,28 +1,44 @@
 import { useEffect, useState } from "react";
-import { Quiz } from "../types";
+import { Quiz, Note } from "../types";
 import { getRandomNum } from "../utils";
 import QuizCardItem from "./QuizCardItem";
 
 type Props = {
   quiz: Quiz;
-  activeNextQuiz: () => void;
+  nextQuizFunc: () => void;
+  answerCountFunc: () => void;
+  setNoteList: (note: Note) => void;
 };
 
 const badgeStyle = "rounded-md mr-2 p-1 text-white";
 
-let correct_answer: number | null = null;
+let correct_answer: { idx: number; text: string } = { idx: -1, text: "" };
+
 export default function QuizCard(props: Props) {
-  const { quiz, activeNextQuiz } = props;
+  const { quiz, nextQuizFunc, answerCountFunc, setNoteList } = props;
   const [answerList, setAnswerList] = useState<string[] | null>(null);
   const [answer, setAnswer] = useState<number | null>(null);
 
+  const setResult = (answerIdx: number, correctIdx: number, choice: string) => {
+    if (answerIdx === correctIdx) {
+      answerCountFunc();
+    } else {
+      setNoteList({
+        ...quiz,
+        date: new Date(),
+        user_choice: choice,
+      });
+    }
+  };
+
   useEffect(() => {
-    // 랜덤한 위치에 정답 넣기
+    // 사용자 선택 정답 초기화
     setAnswer(null);
 
-    correct_answer = getRandomNum(0, 4, true);
+    // 랜덤한 위치에 정답 넣기
+    correct_answer = { idx: getRandomNum(0, 4, true), text: quiz.correct_answer };
     const arr = quiz.incorrect_answers.concat([]);
-    arr.splice(correct_answer, 0, quiz.correct_answer);
+    arr.splice(correct_answer.idx, 0, correct_answer.text);
     setAnswerList(arr);
   }, [quiz]);
 
@@ -40,13 +56,14 @@ export default function QuizCard(props: Props) {
             answerList.map((v, idx) => (
               <QuizCardItem
                 key={idx}
-                itemInfo={{ text: v, color: idx === correct_answer ? "green" : "red" }}
+                itemInfo={{ text: v, color: idx === correct_answer.idx ? "green" : "red" }}
                 isCheck={answer === idx}
                 isOpen={answer !== null}
                 clickEvent={() => {
                   if (answer !== null) return;
                   setAnswer(idx);
-                  activeNextQuiz();
+                  setResult(idx, correct_answer.idx, answerList[idx]);
+                  nextQuizFunc();
                 }}
               />
             ))}
