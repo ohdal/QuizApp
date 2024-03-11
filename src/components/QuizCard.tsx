@@ -5,18 +5,21 @@ import QuizCardItem from "./QuizCardItem";
 
 type Props = {
   quiz: Quiz;
+  activeNextQuiz: () => void;
 };
 
 const badgeStyle = "rounded-md mr-2 p-1 text-white";
 
 let correct_answer: number | null = null;
 export default function QuizCard(props: Props) {
-  const { quiz } = props;
+  const { quiz, activeNextQuiz } = props;
   const [answerList, setAnswerList] = useState<string[] | null>(null);
   const [answer, setAnswer] = useState<number | null>(null);
 
   useEffect(() => {
     // 랜덤한 위치에 정답 넣기
+    setAnswer(null);
+
     correct_answer = getRandomNum(0, 4, true);
     const arr = quiz.incorrect_answers.concat([]);
     arr.splice(correct_answer, 0, quiz.correct_answer);
@@ -37,10 +40,13 @@ export default function QuizCard(props: Props) {
             answerList.map((v, idx) => (
               <QuizCardItem
                 key={idx}
-                text={v}
-                checked={answer === idx}
-                clickEvnet={() => {
+                itemInfo={{ text: v, color: idx === correct_answer ? "green" : "red" }}
+                isCheck={answer === idx}
+                isOpen={answer !== null}
+                clickEvent={() => {
+                  if (answer !== null) return;
                   setAnswer(idx);
+                  activeNextQuiz();
                 }}
               />
             ))}

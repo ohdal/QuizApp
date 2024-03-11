@@ -1,19 +1,28 @@
 type Props = {
-  text: string;
-  checked: boolean;
-  clickEvnet: () => void;
+  itemInfo: { text: string; color: string };
+  isCheck: boolean;
+  isOpen: boolean;
+  clickEvent: () => void;
+};
+
+const buttonStyle: { [key: string]: string } = {
+  default: "relative my-1 py-1 px-2 rounded-lg border border-slate-400 hover:bg-slate-200",
+  green: "relative my-1 py-1 px-2 rounded-lg border border-slate-400 bg-green-200",
+  red: "relative my-1 py-1 px-2 rounded-lg border border-slate-400 bg-red-200",
 };
 
 export default function QuizCardItem(props: Props) {
-  const { text, checked, clickEvnet } = props;
+  const { itemInfo, isCheck, isOpen, clickEvent } = props;
 
   return (
     <button
-      className="relative my-1 py-1 px-2 rounded-lg border border-slate-200 hover:bg-slate-200"
-      onClick={clickEvnet}
+      className={isOpen ? buttonStyle[itemInfo.color] : buttonStyle["default"]}
+      onClick={() => {
+        clickEvent();
+      }}
     >
-      {text}
-      {checked && <span className="absolute right-2">✔</span>}
+      {itemInfo.text}
+      {isCheck && <span className="absolute right-2">✔</span>}
     </button>
   );
 }
