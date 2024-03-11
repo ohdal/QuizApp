@@ -7,6 +7,7 @@ import QuizCard from "../components/QuizCard";
 
 const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 
+const size = 10;
 let isPending = false;
 let timerId: number | null = null;
 let result: Result = { time: 0, correct: 0, noteList: [] };
@@ -18,19 +19,20 @@ export default function QuizPage() {
 
   const saveResult = () => {
     const data = localStorage.getItem(NOTE_STORAGE_KEY);
-    console.log("data", data);
     const arr = data ? JSON.parse(data as string) : [];
 
     // 이전 데이터와 합치기
     arr.push(...result.noteList);
 
     localStorage.setItem(NOTE_STORAGE_KEY, JSON.stringify(arr));
-    navigate("/result");
+    navigate("/result", {
+      state: { time: result.time, correct: result.correct, incorrect: size - result.correct },
+    });
   };
 
   const getQuizListFunc = async () => {
     try {
-      const data = await getQuizList();
+      const data = await getQuizList(size);
       setQuizList(data as QuizList);
       isPending = false;
     } catch (err) {

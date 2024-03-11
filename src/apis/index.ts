@@ -9,8 +9,8 @@ const RES_CODE = [
   "Rate Limit ", // Each IP can only access the API once every 5 seconds.
 ];
 
-export const getQuizList = async (): Promise<QuizList | Error> => {
-  const res = await fetch("https://opentdb.com/api.php?amount=10&type=multiple");
+export const getQuizList = async (size: number = 10): Promise<QuizList | Error> => {
+  const res = await fetch(`https://opentdb.com/api.php?amount=${size}&type=multiple`);
   const data = await res.json();
 
   if (res.status === 200) {
