@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Quiz, Note } from "../types";
 import { getRandomNum } from "../utils";
 import QuizCardItem from "./QuizCardItem";
+import QuizBadge from "./QuizBadge";
 
 type Props = {
   quiz: Quiz;
@@ -9,8 +10,6 @@ type Props = {
   answerCountFunc: () => void;
   setNoteList: (note: Note) => void;
 };
-
-const badgeStyle = "rounded-md mr-2 p-1 text-white";
 
 let correct_answer: { idx: number; text: string } = { idx: -1, text: "" };
 
@@ -25,7 +24,7 @@ export default function QuizCard(props: Props) {
     } else {
       setNoteList({
         ...quiz,
-        date: new Date(),
+        date: Date(),
         user_choice: choice,
       });
     }
@@ -44,11 +43,7 @@ export default function QuizCard(props: Props) {
 
   return (
     <div>
-      <div className="flex flex-row">
-        <p className={`bg-gray-400 ${badgeStyle}`}>{quiz.category}</p>
-        <p className={`bg-red-400 ${badgeStyle}`}>{quiz.difficulty}</p>
-        <p className={`bg-sky-400 ${badgeStyle}`}>{quiz.type}</p>
-      </div>
+      <QuizBadge category={quiz.category} difficulty={quiz.difficulty} type={quiz.type} />
       <div>
         <p className="my-3 text-center">{quiz.question}</p>
         <div className="flex flex-col">

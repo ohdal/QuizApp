@@ -69,7 +69,7 @@ export default function QuizPage() {
       <div className="flex flex-col relative pb-12">
         {quizList ? (
           <>
-            <p>Quiz {quizIdx + 1}.</p>
+            <p className="text-xl font-bold">QUIZ {quizIdx + 1}.</p>
             <QuizCard
               quiz={quizList[quizIdx]}
               nextQuizFunc={() => {

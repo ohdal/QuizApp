@@ -63,8 +63,8 @@ export default function ResultPage() {
             </PieChart>
           </ResponsiveContainer>
           <div className="w-full absolute top-0 left-0 p-2 text-center">
-            {data.map((v) => (
-              <div className="inline-block mr-3">
+            {data.map((v, idx) => (
+              <div key={`text-${idx}`} className="inline-block mr-3">
                 <p className="w-2.5 h-2.5 inline-block mr-1" style={{ backgroundColor: v.color }} />
                 {v.name}
               </div>

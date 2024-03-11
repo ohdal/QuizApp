@@ -9,7 +9,7 @@ export type Quiz = {
 
 export type QuizList = Array<Quiz>;
 
-export type Note = Quiz | { date: Date; user_choice: string };
+export type Note = Quiz & { date: string; user_choice: string; user_memo?: string };
 
 export type NoteList = Array<Note>;
 
