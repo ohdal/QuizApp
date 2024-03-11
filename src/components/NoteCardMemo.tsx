@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   initValue: string;
@@ -8,6 +8,10 @@ type Props = {
 export default function NoteCardMemo(props: Props) {
   const { initValue, saveFunc } = props;
   const [value, setValue] = useState<string>("");
+
+  useEffect(() => {
+    setValue(initValue);
+  }, []);
 
   return (
     <div className="grid justify-items-end">
@@ -23,6 +27,7 @@ export default function NoteCardMemo(props: Props) {
         className="w-20 justify-self-end my-1 py-1 px-2 rounded-lg bg-gray-200"
         onClick={() => {
           if (value.trim()) saveFunc(value);
+          else alert("메모를 입력해주세요.")
         }}
       >
         메모저장

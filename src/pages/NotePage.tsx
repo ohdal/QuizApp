@@ -15,6 +15,8 @@ export default function NotePage() {
 
       arr.splice(idx, 1, { ...note, user_memo: memo });
       localStorage.setItem(NOTE_STORAGE_KEY, JSON.stringify(arr));
+
+      alert("메모가 저장되었습니다.");
     }
   };
 
@@ -27,10 +29,10 @@ export default function NotePage() {
 
   return (
     <div className="w-full h-full grid place-content-center relative">
-      <div className="w-2/3 mx-auto overflow-auto">
-        <div className="flex-col">
-          {noteList ? (
-            noteList.map((v, idx) => (
+      {noteList ? (
+        <div className="w-2/3 mx-auto pr-3 overflow-auto">
+          <div className="flex-col">
+            {noteList.map((v, idx) => (
               <NoteCard
                 key={`note-${idx}`}
                 item={v}
@@ -38,12 +40,12 @@ export default function NotePage() {
                   storageSave(idx, memo);
                 }}
               />
-            ))
-          ) : (
-            <p>오답노트가 존재하지 않습니다.</p>
-          )}
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <p>오답노트가 존재하지 않습니다.</p>
+      )}
       <button className={`absolute top-0 right-0 ${buttonStyle}`}>
         <Link to="/">홈으로</Link>
       </button>
