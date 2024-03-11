@@ -8,6 +8,16 @@ const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 export default function NotePage() {
   const [noteList, setNoteList] = useState<NoteList | null>(null);
 
+  const storageSave = (idx: number, memo: string) => {
+    if (noteList) {
+      const arr = noteList?.concat([]);
+      const note = arr[idx];
+
+      arr.splice(idx, 1, { ...note, user_memo: memo });
+      localStorage.setItem(NOTE_STORAGE_KEY, JSON.stringify(arr));
+    }
+  };
+
   useEffect(() => {
     const data = localStorage.getItem(NOTE_STORAGE_KEY);
     const list = data ? JSON.parse(data) : null;
@@ -20,7 +30,15 @@ export default function NotePage() {
       <div className="w-2/3 mx-auto overflow-auto">
         <div className="flex-col">
           {noteList ? (
-            noteList.map((v, idx) => <NoteCard key={`note-${idx}`} item={v} />)
+            noteList.map((v, idx) => (
+              <NoteCard
+                key={`note-${idx}`}
+                item={v}
+                saveFunc={(memo: string) => {
+                  storageSave(idx, memo);
+                }}
+              />
+            ))
           ) : (
             <p>오답노트가 존재하지 않습니다.</p>
           )}
