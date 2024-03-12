@@ -1,4 +1,5 @@
-import { QuizList } from "../types";
+import { decode } from "html-entities";
+import { QuizList, Quiz } from "../types";
 
 const RES_CODE = [
   "Success",
@@ -9,12 +10,29 @@ const RES_CODE = [
   "Rate Limit ", // Each IP can only access the API once every 5 seconds.
 ];
 
+const decodeHtmlEntity = (data: Array<Quiz>): Array<Quiz> => {
+  const arr = [];
+  for (let i = 0; i < data.length; i++) {
+    let quiz = {
+      ...data[i],
+      question: decode(data[i].question),
+      correct_answer: decode(data[i].correct_answer),
+      incorrect_answers: data[i].incorrect_answers.map((v) => decode(v)),
+    };
+
+    arr.push(quiz);
+  }
+  return arr;
+};
+
 export const getQuizList = async (size: number = 10): Promise<QuizList | Error> => {
   const res = await fetch(`https://opentdb.com/api.php?amount=${size}&type=multiple`);
   const data = await res.json();
 
+  const decode = decodeHtmlEntity(data.results);
+
   if (res.status === 200) {
-    if (data.response_code === 0) return data.results;
+    if (data.response_code === 0) return decode;
     else throw new Error(RES_CODE[data.response_code]);
   } else {
     throw new Error("Error");
