@@ -4,7 +4,7 @@ import { getRandomNum } from "../utils";
 import QuizCardItem from "./QuizCardItem";
 import QuizBadge from "./QuizBadge";
 
-type Props = {
+export type Props = {
   quiz: Quiz;
   nextQuizFunc: () => void;
   answerCountFunc: () => void;

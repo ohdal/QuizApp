@@ -17,6 +17,7 @@ export default function QuizCardItem(props: Props) {
   return (
     <button
       className={isOpen ? buttonStyle[itemInfo.color] : buttonStyle["default"]}
+      disabled={isOpen}
       onClick={() => {
         clickEvent();
       }}
