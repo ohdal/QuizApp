@@ -5,6 +5,8 @@ import { QuizList, Result, Note } from "../types";
 import { NOTE_STORAGE_KEY } from "../constants";
 import QuizCard from "../components/QuizCard";
 
+//TODO: 좀더 나은 에러처리에 대한 고민
+
 const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 
 const size = 10;

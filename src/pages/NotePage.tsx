@@ -4,6 +4,13 @@ import { NoteList } from "../types";
 import { NOTE_STORAGE_KEY } from "../constants";
 import NoteCard from "../components/NoteCard";
 
+// 못해서 아쉬운 것들
+//TODO: 오답들 난이도(difficulty) 통계 차트 표시
+//TODO: 세션토큰 미설정으로 중복된 퀴즈가 내려올 수 있으므로, 중복 오답 체크 후 중요도 표시 기능
+//TODO: seletor 추가 후 난이도별 필터 기능 등등 다양한 필터 기능
+//TODO: 메모 저장 버튼이 아닌 debounce 기법 이용하여 자동 저장
+//TODO: 공통된 ButtonStyle 처리  -> ?
+
 const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 export default function NotePage() {
   const [noteList, setNoteList] = useState<NoteList | null>(null);
