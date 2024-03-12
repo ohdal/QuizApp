@@ -4,7 +4,7 @@ const difficultyColor: {[key: string]: string} = {
   hard: "bg-red-400",
 }
 
-type Props = {
+export type Props = {
   category: string;
   difficulty: string;
   type: string;
@@ -12,7 +12,7 @@ type Props = {
 
 const badgeStyle = "rounded-md mr-2 p-1 text-white text-xs";
 
-export default function Badge(props: Props) {
+export default function QuizBadge(props: Props) {
   const { category, difficulty, type } = props;
   return (
     <div className="flex flex-row">
