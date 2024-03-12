@@ -18,7 +18,7 @@ const saveFunc = (memo: string) => {
 };
 
 describe("NoteCard 컴포넌트 테스트", () => {
-  test("Note 타입의 데이터를 전달받아 화면에 정상적으로 렌더링 한다. (메모 초깃값 없음)", () => {
+  test("Note 타입의 데이터 화면에 렌더링 테스트", () => {
     // given - NoteCard 컴포넌트를 화면에 표시한다.
     // when - Note 타입의 데이터를 전달받았을 때
     const initialProps: Props = {

@@ -14,7 +14,7 @@ describe("NoteCardMemo 컴포넌트 테스트", () => {
     render(<NoteCardMemo {...initialProps} />);
   });
 
-  test("initValue를 받아 초깃값을 표시한다.", () => {
+  test("initValue 초깃값을 표시 테스트", () => {
     const memoTextarea = screen.getByDisplayValue(initValue);
     expect(memoTextarea);
   });
