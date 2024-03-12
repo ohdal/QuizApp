@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type Props = {
+export type Props = {
   initValue: string;
   saveFunc: (memo: string) => void;
 };
@@ -16,6 +16,7 @@ export default function NoteCardMemo(props: Props) {
   return (
     <div className="grid justify-items-end">
       <textarea
+        data-testid="memo-textarea"
         placeholder="메모를 입력하세요."
         defaultValue={initValue}
         className="w-full rounded-lg border border-slate-300"

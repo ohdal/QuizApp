@@ -9,7 +9,7 @@ const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 
 const size = 10;
 let isPending = false;
-let timerId: number | null = null;
+let timerId: NodeJS.Timeout | null = null;
 let result: Result = { time: 0, correct: 0, noteList: [] };
 export default function QuizPage() {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { Note } from "../types";
 import QuizBadge from "./QuizBadge";
 import NoteCardMemo from "./NoteCardMemo";
 
-type Props = {
+export type Props = {
   item: Note;
   saveFunc: (memo: string) => void;
 };
