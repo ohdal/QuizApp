@@ -17,19 +17,17 @@ const saveFunc = (memo: string) => {
   console.log(memo);
 };
 
-beforeAll(() => {
-  // given - NoteCard 컴포넌트를 화면에 표시한다.
-  // when - Note 타입의 데이터를 전달받았을 때
-  const initialProps: Props = {
-    item: item,
-    saveFunc,
-  };
-
-  render(<NoteCard {...initialProps} />);
-});
-
 describe("NoteCard 컴포넌트 테스트", () => {
   test("Note 타입의 데이터를 전달받아 화면에 정상적으로 렌더링 한다. (메모 초깃값 없음)", () => {
+    // given - NoteCard 컴포넌트를 화면에 표시한다.
+    // when - Note 타입의 데이터를 전달받았을 때
+    const initialProps: Props = {
+      item: item,
+      saveFunc,
+    };
+
+    render(<NoteCard {...initialProps} />);
+
     // then - 에러 없이 화면에 정상적으로 렌더링
     expect(screen.getByText(item.category)).toBeInTheDocument();
     expect(screen.getByText(item.difficulty)).toBeInTheDocument();
