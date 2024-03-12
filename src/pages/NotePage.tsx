@@ -24,7 +24,7 @@ export default function NotePage() {
     const data = localStorage.getItem(NOTE_STORAGE_KEY);
     const list = data ? JSON.parse(data) : null;
 
-    setNoteList(list);
+    setNoteList(list.reverse());
   }, []);
 
   return (
