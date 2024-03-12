@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 type CustomLabel = {
@@ -28,16 +28,28 @@ const renderCustomizedLabel = (props: CustomLabel) => {
 const buttonStyle = "my-1 py-1 px-2 rounded-lg border border-slate-400";
 export default function ResultPage() {
   const location = useLocation();
-  const { time, correct, incorrect } = location.state;
+  const navigate = useNavigate();
   const [data, setData] = useState<Array<{ name: string; value: number; color: string }>>([]);
+  const [info, setInfo] = useState<{ time: number; correct: number }>({ time: 0, correct: 0 });
 
   useEffect(() => {
-    const arr = [
-      { name: "Correct", value: correct, color: "#4ade80" },
-      { name: "Incorrect", value: incorrect, color: "#f87171" },
-    ];
+    if (location.state) {
+      const { time, correct, incorrect } = location.state;
+      const arr = [
+        { name: "Correct", value: correct, color: "#4ade80" },
+        { name: "Incorrect", value: incorrect, color: "#f87171" },
+      ];
 
-    setData(arr);
+      setData(arr);
+      setInfo({
+        time,
+        correct,
+      });
+    } else {
+      alert("잘못된 접근입니다. 홈화면으로 돌아갑니다.");
+      navigate("/");
+      return;
+    }
   }, []);
 
   return (
@@ -73,10 +85,10 @@ export default function ResultPage() {
         </div>
         <div className="text-center">
           <p>
-            소요시간 : <span>{time}'s</span>
+            소요시간 : <span>{info.time}'s</span>
           </p>
           <p>
-            정답: <span>{correct}문항</span>
+            정답: <span>{info.correct}문항</span>
           </p>
         </div>
       </div>
