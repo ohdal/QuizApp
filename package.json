@@ -5,12 +5,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build --base /QuizApp",
+    "dev": "cp -f ./index_base.html ./index.html && vite",
+    "build": "tsc && cp -f ./index_base.html ./index.html && vite build --base /QuizApp",
+    "build_git": "tsc && cp -f ./index_git.html ./index.html && vite build --base /QuizApp --mode github",
     "unit-test": "jest --watchAll",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build_git",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
