@@ -36,9 +36,9 @@ export default function QuizPage() {
       setQuizList(data as QuizList);
       isPending = false;
     } catch (err) {
-      // 임시
       setQuizList(null);
-      alert(err);
+      alert(`에러설명: ${err} \n홈화면으로 돌아갑니다.`);
+      navigate("/");
     }
   };
 
